@@ -22,19 +22,21 @@ import com.example.mvvmex.dialog.CustomDialogInterface
 import com.example.mvvmex.viewmodel.UserViewModel
 
 class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQueryTextListener {
-    private lateinit var binding : ActivityMainBinding
-    private lateinit var userViewModel : UserViewModel
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var userViewModel: UserViewModel
     private val adapter: MyAdapter by lazy { MyAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // 뷰모델 연결
         userViewModel = ViewModelProvider(this, UserViewModel.Factory(application)).get(
-            UserViewModel::class.java)
+            UserViewModel::class.java
+        )
 
         // 아이템을 가로로 하나씩 보여줌
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         // 어댑터 연결
         binding.recyclerView.adapter = adapter
 
@@ -44,8 +46,8 @@ class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQu
     }
 
     // 서치뷰 생성
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean{
-        menuInflater.inflate(R.menu.main_menu,menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
 
         val search = menu?.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQu
 
     override fun onQueryTextChange(newText: String?): Boolean {
         // 서치뷰 텍스트 변경 시
-        if(newText != null){
+        if (newText != null) {
             searchDatabase(newText)
         }
         return true
@@ -76,27 +78,31 @@ class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQu
             adapter.setData(it)
         })
     }
+
     // Fab 클릭시 다이얼로그 띄움
-    fun onAdd(view : View){
-        val customDialog = CustomDialog(this,this)
+    fun onAdd(view: View) {
+        val customDialog = CustomDialog(this, this)
         customDialog.show()
     }
-    fun onRandom(view : View){
-        val secureRandom= SecureRandom()
-        val idx=secureRandom.nextInt(adapter.itemCount)
+
+    fun onRandom(view: View) {
+        val secureRandom = SecureRandom()
+        val idx = secureRandom.nextInt(adapter.itemCount)
 
         userViewModel.getUser(adapter.getId(idx)).observe(this, {
             adapter.setData(it)
         })
     }
-    fun onList(view : View){
+
+    fun onList(view: View) {
         userViewModel.readAllData.observe(this, Observer {
             adapter.setData(it)
         })
     }
+
     // 다이얼로그에서 추가버튼 클릭 됐을 때
-    override fun onAddButtonClicked(name : String, age : Int) {
-        val user = User(0,name,age)
+    override fun onAddButtonClicked(name: String, age: Int) {
+        val user = User(0, name, age)
         userViewModel.addUser(user)
         Toast.makeText(this, "이름 : $name , 나이 : $age 추가", Toast.LENGTH_SHORT).show()
     }
