@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQu
         })
     }
     // Fab 클릭시 다이얼로그 띄움
-    fun onFabClicked(view : View){
+    fun onAdd(view : View){
         val customDialog = CustomDialog(this,this)
         customDialog.show()
     }
-    fun onFabClicked2(view : View){
+    fun onRandom(view : View){
         val secureRandom= SecureRandom()
         val idx=secureRandom.nextInt(adapter.itemCount)
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), CustomDialogInterface, SearchView.OnQu
             adapter.setData(it)
         })
     }
-    fun onFabClicked3(view : View){
+    fun onList(view : View){
         userViewModel.readAllData.observe(this, Observer {
             adapter.setData(it)
         })
