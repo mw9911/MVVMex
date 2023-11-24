@@ -12,10 +12,8 @@ import android.widget.Toast
 import com.example.mvvmex.R
 
 class CustomDialog(context: Context, Interface: CustomDialogInterface) : Dialog(context) {
-
     // 액티비티에서 인터페이스를 받아옴
     private var customDialogInterface: CustomDialogInterface = Interface
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_custom)
@@ -45,7 +43,6 @@ class CustomDialog(context: Context, Interface: CustomDialogInterface) : Dialog(
                 dismiss()
             }
         }
-
         // 취소 버튼 클릭 시 onCancelButtonClicked 호출 후 종료
         cancelButton.setOnClickListener {
             customDialogInterface.onCancelButtonClicked()
